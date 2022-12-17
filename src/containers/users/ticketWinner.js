@@ -1,11 +1,12 @@
 import {useState, useEffect} from 'react'
 const TicketWinner =()=> {
     const [ticketList, setTicketList] = useState([])
+    const [stillInTheGame, setStillInTheGame] = useState(true)
     const [typedTicketNo,setTypedTicketNo] = useState('')
     const [currentName,setCurrentName] = useState('')
 
-   
-    const [bgColor, setBgColor] = useState('aqua')
+//    const colorList = ['aqua', 'red','green']
+    const [bgColor, setBgColor] = useState(colorList[0])
     const fetchTicketData = async()=> {
        const data = await fetch('http://localhost:3000/ticket/')
        const tickets = await data.json() 
@@ -26,6 +27,25 @@ const TicketWinner =()=> {
     useEffect(()=>{
         fetchTicketData()
     },[])
+
+    const drawRandom = () => {
+        const randomID = Math.floor(Math.random()*ticketList.length)
+        const tempTicket = [...ticketList]
+        tempTicket.splice(randomID,1)
+        const typedNumInt =Number(typedTicketNo)
+        if(tempTicket.includes(typedNumInt)){
+            setStillInTheGame(true)
+        }else{
+            setStillInTheGame(false)
+        }
+        setTicketList(tempTicket)
+    }
+
+
+
+    if(!stillInTheGame){
+        return (<h1>hi you lost</h1>) 
+    }
     return (
     <>
     hi {currentName}
@@ -42,7 +62,7 @@ const TicketWinner =()=> {
       <input 
     onKeyUp={(e)=> setCurrentName(e.target.value)}
      placeholder="Enter your name"/>
-     <button>Next draw</button>
+     <button onClick={()=> drawRandom()}>Next draw</button>
      </>
     );
   }

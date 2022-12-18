@@ -5,8 +5,8 @@ const TicketWinner =()=> {
     const [typedTicketNo,setTypedTicketNo] = useState('')
     const [currentName,setCurrentName] = useState('')
 
-//    const colorList = ['aqua', 'red','green']
-    const [bgColor, setBgColor] = useState(colorList[0])
+   const colorList =  ['red', 'green', 'aqua']
+   const [colorIndex, setColorIndex] = useState(0)
     const fetchTicketData = async()=> {
        const data = await fetch('http://localhost:3000/ticket/')
        const tickets = await data.json() 
@@ -41,7 +41,13 @@ const TicketWinner =()=> {
         setTicketList(tempTicket)
     }
 
-
+    const changeColor = () => {
+        if(colorIndex===colorList.length-1){
+            setColorIndex(0)
+        }else{
+            setColorIndex(colorIndex+1)
+        }
+    }
 
     if(!stillInTheGame){
         return (<h1>hi you lost</h1>) 
@@ -51,8 +57,9 @@ const TicketWinner =()=> {
     hi {currentName}
      {ticketList.length >0 && ticketList.map((item,id)=>{
         return <div 
+        onClick={()=> changeColor()}
         style={{
-        backgroundColor:typedTicketNo.toString()=== item.toString() ? bgColor : null,
+        backgroundColor:typedTicketNo.toString()=== item.toString() ? colorList[colorIndex] : null,
          margin:'20px',height:'40px', width:'50px' }}
         >{item}</div>
      })}

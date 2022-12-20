@@ -3,9 +3,9 @@
   import * as Yup from 'yup';
   
   const SignupSchema = Yup.object().shape({
-    fullName: Yup.string()
+    name: Yup.string()
       .min(2, 'Too Short!')
-      .required('Please enter fullName'),
+      .required('Please enter name'),
       ticketNo: Yup.number().min(1, 'Too Short!')
       .required('Required'),
   });
@@ -16,7 +16,7 @@
       <h1>Register lottery users</h1>
       <Formik
         initialValues={{
-          fullName: '',
+          name: '',
           ticketNo: '',
         }}
         validationSchema={SignupSchema}
@@ -33,9 +33,9 @@
       >
         {({ errors, touched }) => (
           <Form>
-            <Field name="fullName" placeholder="fullName" />
-            {errors.fullName && touched.fullName ? (
-              <div>{errors.fullName}</div>
+            <Field name="name" placeholder="name" />
+            {errors.name && touched.name ? (
+              <div>{errors.name}</div>
             ) : null}
             <br/>
             <Field name="ticketNo" placeholder="ticketNo"/>

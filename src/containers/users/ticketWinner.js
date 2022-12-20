@@ -70,6 +70,9 @@ const TicketWinner =()=> {
     onKeyUp={(e)=> setCurrentName(e.target.value)}
      placeholder="Enter your name"/>
      <button onClick={()=> drawRandom()}>Next draw</button>
+
+
+
      </>
     );
   }

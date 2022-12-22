@@ -1,10 +1,11 @@
 import {useEffect, useState} from 'react'
+import { useNavigate } from "react-router-dom";
 const AssignWinner =()=> {
   const [ticket, setTicket] = useState([])
   const [drawResponse, setDrawResponse] = useState('') 
   const [currentWinColor, setCurrentWinColor] = useState(null)
   const [currentWinNumber, setCurrentWinNumber] = useState(null)
-
+  const navigate = useNavigate();
   const fetchTicketData = async()=> {
     const data = await fetch('http://localhost:3000/ticket/')
     const tickets = await data.json() 
@@ -61,6 +62,8 @@ const AssignWinner =()=> {
           <button onClick={()=> saveWinner()}>Save Winner</button>
       </>
      ): drawResponse}
+      <br/>
+     <button onClick={()=> navigate("/")}>back to homepage</button>
      </>
     );
   }

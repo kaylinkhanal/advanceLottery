@@ -11,24 +11,28 @@
   });
   
   
-  const RegisterUser = () => (
+  const RegisterUser = (props) => {
+
+    return(
     <div>
-      <h1>Register lottery users</h1>
+      <h1>{props.editform ? 'Edit user details': 'Register lottery users'}</h1>
       <Formik
-        initialValues={{
+        initialValues={props.editform ? props.userDetail : {
           name: '',
           ticketNo: '',
         }}
         validationSchema={SignupSchema}
         onSubmit={values => {
             const requestOptions = {
-                method: "POST",
+                method:props.editform? "PUT": "POST",
                 headers: {
                 'Content-type': 'application/json'
                 },
                 body: JSON.stringify(values)
             }
            fetch('http://localhost:3000/register' , requestOptions)
+           .then(res=> res.json())
+           .then(data=> alert(data.msg))
         }}
       >
         {({ errors, touched }) => (
@@ -48,6 +52,7 @@
         )}
       </Formik>
     </div>
-  );
+  )
+}
   
   export default RegisterUser

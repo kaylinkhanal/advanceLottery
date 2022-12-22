@@ -4,6 +4,8 @@ const TicketWinner =()=> {
     const [stillInTheGame, setStillInTheGame] = useState(true)
     const [typedTicketNo,setTypedTicketNo] = useState('')
     const [currentName,setCurrentName] = useState('')
+    const [msg,setMsg] = useState('')
+
 
    const colorList =  ['red', 'green', 'aqua']
    const [colorIndex, setColorIndex] = useState(0)
@@ -41,6 +43,18 @@ const TicketWinner =()=> {
         setTicketList(tempTicket)
     }
 
+
+    const validateAndDraw=async ()=> {
+        if(ticketList.length === 2){
+            setMsg('')
+            const data = await fetch(`http://localhost:3000/users/?name=${currentName}&ticketNo=${typedTicketNo}&color=${colorList[colorIndex]}`)
+            const validateRes = await data.json()
+            setMsg(validateRes.errMsg || validateRes.msg)
+        }else{
+            drawRandom()
+        }
+    }
+
     const changeColor = () => {
         if(colorIndex===colorList.length-1){
             setColorIndex(0)
@@ -69,10 +83,8 @@ const TicketWinner =()=> {
       <input 
     onKeyUp={(e)=> setCurrentName(e.target.value)}
      placeholder="Enter your name"/>
-     <button onClick={()=> drawRandom()}>Next draw</button>
-
-
-
+     <h5>{msg}</h5>
+     <button onClick={()=> validateAndDraw()}>Next draw</button>
      </>
     );
   }
